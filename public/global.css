@@ -19,7 +19,7 @@ body{
 	accent-color: #fff;
 	color: #fff;
 }
-input{
+.textans input{
 	border: white solid 5px;
 	border-radius: 5px;
 	font-size:50px;
