@@ -1,4 +1,13 @@
 <style>
+    .dialogbox{
+        position: absolute;
+        top: 50%;
+        opacity: 0.6;
+        backdrop-filter: blur(10px) ;
+    }
+    .dialogtext{
+        font-size: large;
+    }
     .center_content{
         display: flex;
         flex-direction: column;
@@ -8,6 +17,7 @@
     }
     .ans{
         flex-grow: 1;
+        margin: 3px 3px 3px 3px;
         width: calc(100vw / 20);
         height: calc(100vh / 15);
         text-align: center;
@@ -20,8 +30,8 @@
     }
     @media (max-width: 600px){
         .ans{
-            width: calc(100vw / 10);
-            height: calc(100vh / 10);
+            width: calc(100vw / 13);
+            height: calc(100vh / 15);
         }
     }
 </style>
@@ -30,34 +40,84 @@
     import {onMount} from 'svelte';
     import Loading from './Loading.svelte'
     import Keyboard from './Keyboard.svelte'
+    import ImageGrabing from './ImageGrabing.svelte'
     function OnKeyPress_Keyboard(event){
+        ans.split(" ").map((x,outerIndex)=>{
+            x.split("").map((y,innerIndex)=>{
+                if(event.detail.key.toLowerCase() === y.toLowerCase()){
+                    let done = document.getElementById(`${outerIndex}:${innerIndex}`)
+                    done.style.backgroundColor = "green"
+                    done.value = y
+                    
+                }
+            })
+        })
+        // backend change
         if (ans.toLowerCase().indexOf(event.detail.key.toLowerCase()) === -1){
             time_usergo_wrong += 1
         }else{
-            time_usergo_right += 1
+            if(keypressed_store.indexOf(event.detail.key.toLowerCase()) === -1){
+                keypressed_store.push(event.detail.key.toLowerCase())
+                ans.split("").map((x)=>{if(event.detail.key.toLowerCase()===x.toLowerCase()) time_usergo_right += 1})
+                trigger_event_win()
+            }
         }
     }
+    function trigger_event_win(){
+        if(finishfetch && time_usergo_right >= time_usergo_right_ans){
+            console.log("you win")
+            win = true 
+        }
+    }
+    function trigger_event_restart(){
+        finishfetch = false
+        time_usergo_wrong = 0
+        time_usergo_right = 0
+        userspace = ""
+        ans = ""
+        cover_imageurl = ""
+        keypressed_store = []
+        time_usergo_right_ans = 0
+        win = false
+        trigger_event_start()
+    }
+    async function trigger_event_start() {
+        let random_num = Math.floor(Math.random()*100)
+        let content = await fetch("https://igdb-gatewayexpress.yeungcephas.repl.co/gamelist/6/90/"+random_num)
+        let output = await content.json()
+        userspace = output[random_num - 1]
+        console.log(userspace)
+        ans = userspace["name"]
+
+        ans.split("").map((x)=>{if(regex.test(x)!==true) time_usergo_right_ans += 1})
+        // count how many it take to win
+        console.log(time_usergo_right_ans)
+    // debug tag unuse soon
+    console.log(ans)
+        finishfetch = true
+    }
+    let regex = new RegExp(/[^a-z,A-Z]/)
+
+    //game value
     let finishfetch = false
     let time_usergo_wrong = 0
     let time_usergo_right = 0
     let userspace
     let ans 
     let cover_imageurl
-    let regex = new RegExp(/[^a-z,A-Z]/)
+    let keypressed_store = []
+    let time_usergo_right_ans = 0
+    let win = false
+
     onMount(async ()=>{
-        let random_num = Math.floor(Math.random()*100)
-        let content = await fetch("https://igdb-gatewayexpress.yeungcephas.repl.co/gamelist/6/90/"+random_num)
-        let output = await content.json()
-        finishfetch = true
-        userspace = output[random_num - 1]
-        console.log(userspace)
-        ans = userspace["name"]
-    // debug tag unuse soon
-    console.log(ans)
+        await trigger_event_start()
     })
 </script>
+<span>Error time: {time_usergo_wrong}</span>
 <div class="center_content">
 {#if finishfetch !== false}
+    <ImageGrabing image_id={userspace["cover"]["image_id"]} width={userspace["cover"]["width"]} height={userspace["cover"]["height"]}/>
+    <img src={userspace["cover"]["url"]} alt="cover art">
     {#each ans.split(" ") as x,i}
         <div class="textans">
         {#each x.split("") as y,u}
@@ -77,3 +137,11 @@
 <h1>input the text to start guessing:</h1>
 <Keyboard on:keypress={OnKeyPress_Keyboard} ans={ans}/>
 </div>
+{#if win === true}
+<dialog class="dialogbox" id="dialogwin" open>
+    <span>Times you got it wrong: {time_usergo_wrong}</span>
+    <span class="dialogtext">You win!</span><br>
+    <span class="dialogtext">coming from {userspace["url"]}</span><br>
+    <button on:click={trigger_event_restart}>Restart</button>
+</dialog>
+{/if}

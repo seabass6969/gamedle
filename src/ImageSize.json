@@ -1,0 +1,14 @@
+{
+"images":[
+{"images_name": "cover_small", "width": 90 ,"height": 128 },
+{"images_name": "screenshot_med", "width": 569 ,"height": 320 },
+{"images_name": "cover_big", "width": 264 ,"height": 374 },
+{"images_name": "logo_med", "width": 284 ,"height": 160 },
+{"images_name": "screenshot_big", "width": 889 ,"height": 500 },
+{"images_name": "screenshot_huge", "width": 1280 ,"height": 720},
+{"images_name": "thumb", "width": 90 ,"height": 90 },
+{"images_name": "micro", "width": 35 ,"height": 35 },
+{"images_name": "720p", "width": 1280 ,"height": 720 },
+{"images_name": "1080p", "width": 1920 ,"height": 1080}
+]
+}
