@@ -1,0 +1,5 @@
+# cephas is a monster
+user-agent: *
+disallow: /fonts/*
+
+sitemap: https://sky.cephas.monster/

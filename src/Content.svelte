@@ -1,10 +1,4 @@
 <style>
-    .dialogbox{
-        position: absolute;
-        top: 50%;
-        opacity: 0.6;
-        backdrop-filter: blur(10px) ;
-    }
     .dialogtext{
         font-size: large;
         color: yellow;
@@ -142,7 +136,7 @@
 {/if}
 </div>
 {#if win === true}
-<dialog class="dialogbox" id="dialogwin" open>
+<dialog id="dialogwin" open>
     <span class="wrong">Times you got it wrong: {time_usergo_wrong}</span><br>
     <span class="dialogtext">You win!</span><br>
     <span class="dialogtext">coming from: <a href="{userspace["url"]}">link</a> </span><br>
