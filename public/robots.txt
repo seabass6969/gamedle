@@ -2,4 +2,4 @@
 user-agent: *
 disallow: /fonts/*
 
-sitemap: https://sky.cephas.monster/
+sitemap: https://gamedle.cephas.monster
