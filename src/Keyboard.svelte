@@ -1,8 +1,10 @@
 <script>
     import {createEventDispatcher} from 'svelte'
     export let ans = "";
+    export let win;
     let correct_pressed_array = []
     let incorrect_pressed_array = []
+    let testkey = new RegExp(/[a-z,A-Z]/)
     const dispatch = createEventDispatcher();
     function onClickKey(keypressed){
         if(ans.toLowerCase().indexOf(keypressed.toLowerCase()) !== -1){
@@ -12,12 +14,22 @@
                 query_selection.style.backgroundColor = "green";
             }
         }else{
+            incorrect_pressed_array.push(keypressed)
             let query_selection = document.querySelector(`[data-key="${keypressed}"]`)
             query_selection.style.backgroundColor = "red";
         }
         dispatch('keypress',{"key":keypressed})
     }
-    
+    function keypress_realkeyboard(event){
+        if(testkey.test(event.key) === true)onClickKey(event.key.toUpperCase())
+    }
+    $: {
+        if(win === true){
+            correct_pressed_array = []
+            incorrect_pressed_array = []
+        }
+    }
+
 </script>
 <style>
     .keyboardbutton{
@@ -82,3 +94,4 @@
         <button class="keyboardbutton" on:click={() => onClickKey("M")} data-key="M">M</button>
     </div>
 </div>
+<svelte:window on:keypress={keypress_realkeyboard} />

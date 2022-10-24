@@ -7,6 +7,10 @@
     }
     .dialogtext{
         font-size: large;
+        color: yellow;
+    }
+    .wrong{
+        color: red;
     }
     .center_content{
         display: flex;
@@ -86,14 +90,13 @@
         let content = await fetch("https://igdb-gatewayexpress.yeungcephas.repl.co/gamelist/6/90/"+random_num)
         let output = await content.json()
         userspace = output[random_num - 1]
-        console.log(userspace)
         ans = userspace["name"]
 
         ans.split("").map((x)=>{if(regex.test(x)!==true) time_usergo_right_ans += 1})
+        if(userspace["cover"] === undefined) location.reload()
         // count how many it take to win
-        console.log(time_usergo_right_ans)
     // debug tag unuse soon
-    console.log(ans)
+    // console.log(ans)
         finishfetch = true
     }
     let regex = new RegExp(/[^a-z,A-Z]/)
@@ -113,11 +116,10 @@
         await trigger_event_start()
     })
 </script>
-<span>Error time: {time_usergo_wrong}</span>
+<span class="wrong">Error time: {time_usergo_wrong}</span>
 <div class="center_content">
 {#if finishfetch !== false}
-    <ImageGrabing image_id={userspace["cover"]["image_id"]} width={userspace["cover"]["width"]} height={userspace["cover"]["height"]}/>
-    <img src={userspace["cover"]["url"]} alt="cover art">
+    <ImageGrabing cover={userspace["cover"]} time_usergo_wrong={time_usergo_wrong} finishfetch={finishfetch} win={win}/>
     {#each ans.split(" ") as x,i}
         <div class="textans">
         {#each x.split("") as y,u}
@@ -134,14 +136,16 @@
 {:else}
     <Loading />
 {/if}
+{#if finishfetch !== false}
 <h1>input the text to start guessing:</h1>
-<Keyboard on:keypress={OnKeyPress_Keyboard} ans={ans}/>
+<Keyboard on:keypress={OnKeyPress_Keyboard} ans={ans} win={win}/>
+{/if}
 </div>
 {#if win === true}
 <dialog class="dialogbox" id="dialogwin" open>
-    <span>Times you got it wrong: {time_usergo_wrong}</span>
+    <span class="wrong">Times you got it wrong: {time_usergo_wrong}</span><br>
     <span class="dialogtext">You win!</span><br>
-    <span class="dialogtext">coming from {userspace["url"]}</span><br>
+    <span class="dialogtext">coming from: <a href="{userspace["url"]}">link</a> </span><br>
     <button on:click={trigger_event_restart}>Restart</button>
 </dialog>
 {/if}
