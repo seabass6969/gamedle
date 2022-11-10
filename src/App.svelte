@@ -1,11 +1,18 @@
 <script>
-	import Headers from './Headers.svelte'
-	import Content from './Content.svelte'
+	import main_game from './routes/main_game.svelte'
+	import Router from 'svelte-spa-router'
+	import index from './routes/index.svelte';
+	import error from './routes/error.svelte'
+
+	const routes = {
+		'/': index,
+		'/main_game/:diff': main_game,
+		'*': error
+	}
 </script>
 
 <main>
-	<Headers />
-	<Content />
+<Router routes={routes} />
 </main>
 
 <style>

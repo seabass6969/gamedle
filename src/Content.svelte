@@ -39,6 +39,8 @@
     import Loading from './Loading.svelte'
     import Keyboard from './Keyboard.svelte'
     import ImageGrabing from './ImageGrabing.svelte'
+    export let params;
+    console.log(params.diff)
     function OnKeyPress_Keyboard(event){
         ans.split(" ").map((x,outerIndex)=>{
             x.split("").map((y,innerIndex)=>{

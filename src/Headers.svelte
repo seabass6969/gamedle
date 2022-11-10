@@ -51,7 +51,7 @@
 }
 </style>
 <div class="header">
-<div class="title">gamedle</div>
+<div class="title"><a href="/">gamedle</a></div>
 <div class="end">
    <button class="button" on:click={openinfobox}><span class="material-symbols-outlined">info</span></button> 
 </div>
