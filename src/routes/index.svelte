@@ -1,3 +1,6 @@
+<script>
+    import {link} from 'svelte-spa-router'
+</script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Rubik+Bubbles&display=swap');
 .middle_start{
@@ -19,10 +22,18 @@
     user-select: none;
 }
 .start_button {
+    display: flex;
     font-family: 'Rubik Bubbles', cursive;
+    align-items: baseline;
 }
 </style>
 <div class="middle_start">
     <h1 class="title">Gamedle</h1>
-    <a class="start_button" href="/#/main_game/easy">start game</a>
+    <a use:link class="start_button" href="/main_game/easy"><span class="material-symbols-outlined arrowright">chevron_right</span>easy game</a>
+    <br>
+    <a use:link class="start_button" href="/main_game/medium"><span class="material-symbols-outlined arrowright">chevron_right</span>medium game</a>
+    <br>
+    <a use:link class="start_button" href="/main_game/hard"><span class="material-symbols-outlined arrowright">chevron_right</span>hard game</a>
+    <br>
+    <a use:link class="start_button" href="/main_game/ultrahard"><span class="material-symbols-outlined arrowright">chevron_right</span>ultra hard game</a>
 </div>

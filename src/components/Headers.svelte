@@ -1,4 +1,5 @@
 <script>
+    import {link} from 'svelte-spa-router'
     let openinfobox_bo = false
     function openinfobox(){
         openinfobox_bo = true
