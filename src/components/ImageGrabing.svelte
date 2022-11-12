@@ -1,7 +1,12 @@
 <style>
     .imagetag{
-        width:300px;
-        filter: blur(calc(4px))
+        height:calc(100vh /3);
+        filter: blur(calc(10px))
+    }
+	@media (max-width: 600px){
+        .imagetag{
+            height: calc(100vh /5);
+        }
     }
 </style>
 <script>

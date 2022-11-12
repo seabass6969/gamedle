@@ -28,7 +28,17 @@ button{
 }
 dialog{
 	position: absolute;
-	top: 50%;
+	top: 20%;
 	opacity: 0.9;
 	backdrop-filter: blur(10px) ;
+}
+body {
+	overflow: visible;
+}
+
+@media (max-width: 600px){
+	body {
+		overflow: visible;
+	}
+
 }

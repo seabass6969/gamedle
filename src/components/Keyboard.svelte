@@ -34,7 +34,7 @@
 <style>
     .keyboardbutton{
         width: calc(100vw / 25);
-        height: calc(100vh / 15);
+        height: calc(100vh / 25);
         background-color: grey;
         border: grey;
         border-radius: 5px;
@@ -52,8 +52,8 @@
 
     @media (max-width: 600px){
         .keyboardbutton{
-            width: calc(100vw / 13);
-            height: calc(100vh / 15);
+            width: calc(100vw / 12.5);
+            height: calc(100vh / 20);
         }
     }
     .keyboardbutton:active{

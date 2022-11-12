@@ -1,4 +1,5 @@
 <script>
+	import {setHighScore} from './../lib/storage.js'
     import {onMount} from 'svelte';
 	import Headers from '../components/Headers.svelte'
     import Loading from '../components/Loading.svelte'
@@ -30,6 +31,7 @@
     function trigger_event_win(){
         if(finishfetch && time_usergo_right >= time_usergo_right_ans){
             console.log("you win")
+			setHighScore(time_usergo_right)
             win = true 
         }
     }
@@ -46,20 +48,9 @@
 		ultrahard = false
         trigger_event_start()
     }
-    async function trigger_event_start(pa) {
+    async function trigger_event_start() {
         let random_num = Math.floor(Math.random()*100)
         let difficult = 90;
-        if (pa.diff === "easy" || pa.diff === undefined) {
-            difficult = 90
-        }else if (pa.diff === "medium") {
-            difficult = 80
-        }else if (pa.diff === "hard") {
-            difficult = 70
-        }else if (pa.diff === "ultrahard") {
-            difficult = 70
-			ultrahard = true 
-        }
-		console.log(difficult)
         let content = await fetch("https://igdb-gatewayexpress.yeungcephas.repl.co/gamelist/6/"+difficult+"/"+random_num)
         let output = await content.json()
         userspace = output[random_num - 1]
@@ -84,16 +75,32 @@
     let keypressed_store = []
     let time_usergo_right_ans = 0
     let win = false
+    let difficult = 90
 	let ultrahard = false
+
+    if (params.diff === "easy" || params.diff === undefined) {
+        difficult = 90
+    }else if (params.diff === "medium") {
+        difficult = 80
+    }else if (params.diff === "hard") {
+        difficult = 70
+    }else if (params.diff === "ultrahard") {
+        difficult = 70
+        ultrahard = true 
+    }
 
     onMount(async ()=>{
         await trigger_event_start(params)
     })
 </script>
 <style>
+    .input_guess {
+        margin-top: 2px;
+        margin-bottom: 2px;
+    }
 	.dialogtext{
 		font-size: large;
-		color: yellow;
+		color: black;
 	}
 	.wrong{
 		color: red;
@@ -103,13 +110,13 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		margin-top: 5%;
+		margin-top: 1%;
 	}
 	.ans{
 		flex-grow: 1;
 		margin: 3px 3px 3px 3px;
-		width: calc(100vw / 20);
-		height: calc(100vh / 15);
+		width: calc(100vw / 22);
+		height: calc(100vh / 22);
 		text-align: center;
 	}
 	.textans{
@@ -120,8 +127,8 @@
 	}
 	@media (max-width: 600px){
 		.ans{
-			width: calc(100vw / 13);
-			height: calc(100vh / 15);
+			width: calc(100vw / 20);
+			height: calc(100vh / 20);
 		}
 	}
 </style>
@@ -151,7 +158,7 @@
     <Loading />
 {/if}
 {#if finishfetch !== false}
-<h1>input the text to start guessing:</h1>
+<h1 class="input_guess">input the text to start guessing:</h1>
 <Keyboard on:keypress={OnKeyPress_Keyboard} ans={ans} win={win}/>
 {/if}
 </div>
