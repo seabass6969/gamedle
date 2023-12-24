@@ -48,10 +48,11 @@
 		ultrahard = false
         trigger_event_start()
     }
+    const igdb_gateway_url = "https://igdbapi.cephas.monster/gamelist/6/"
     async function trigger_event_start() {
         let random_num = Math.floor(Math.random()*100)
         let difficult = 90;
-        let content = await fetch("https://igdb-gateway.onrender.com/gamelist/6/"+difficult+"/"+random_num)
+        let content = await fetch(igdb_gateway_url+difficult+"/"+random_num)
         let output = await content.json()
         userspace = output[random_num - 1]
         ans = userspace["name"]
