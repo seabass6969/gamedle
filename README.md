@@ -1,4 +1,7 @@
 # wordle clone but with game title
+# flowchart of the architecture [Flowchart link](https://drive.google.com/file/d/1lcjo8bn1eequjJ-Y4ow2HeWvnMXnHUqC/view?usp=sharing)
+# backend link [link](https://gitlab.com/seabass6969group/igdb-gateway_express)
+![Gitlab pipeline status (self-managed)](https://img.shields.io/gitlab/pipeline-status/seabass6969group%2Figdb-gateway_express?branch=master&style=for-the-badge)
 ### small info of the api
 the image
 ```
